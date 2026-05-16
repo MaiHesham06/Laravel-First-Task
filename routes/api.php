@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -13,11 +14,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', fn (Request $request) => $request->user());
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::prefix('users')->group(function () {
-        Route::post('/', [UserController::class, 'storeUser']);
-        Route::get('{user}', [UserController::class, 'showUser']);
-        Route::put('{user}', [UserController::class, 'updateUser']);
-        Route::delete('{user}', [UserController::class, 'deleteUser']);
-        Route::post('{user}/restore', [UserController::class, 'restoreUser']);
-    });
+    Route::apiResource('users', UserController::class);
+    Route::post('users/{user}/restore', [UserController::class, 'restore'])->withTrashed();
+  
 });
