@@ -1,10 +1,15 @@
 <?php
 
 use App\Http\Controllers\Web\AuthController;
+use App\Http\Controllers\Web\CategoryController;
+use App\Http\Controllers\Web\ProductController;
 use App\Http\Controllers\Web\UserController;
+use App\Http\Controllers\Web\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Web\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Web\Admin\UserController as AdminUserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -27,9 +32,26 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::get('/profile', [UserController::class, 'profile'])->name('web.users.profile');
+    Route::get('/categories',            [CategoryController::class, 'index'])->name('web.categories.index');
+    Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('web.categories.show');
+    Route::get('/products',              [ProductController::class, 'index'])->name('web.products.index');
+
+    Route::get('/profile',      [UserController::class, 'profile'])->name('web.users.profile');
+    Route::get('/profile/edit', [UserController::class, 'edit'])->name('web.users.edit');
+    Route::put('/profile',      [UserController::class, 'update'])->name('web.users.update');
 
     Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
+        Route::get('/products',                                    [AdminProductController::class, 'index'])->name('products.index');
+
+        Route::get('/categories',                                  [AdminCategoryController::class, 'index'])->name('categories.index');
+        Route::post('/categories',                                 [AdminCategoryController::class, 'store'])->name('categories.store');
+        Route::get('/categories/{category}',                       [AdminCategoryController::class, 'show'])->name('categories.show');
+        Route::delete('/categories/{category}',                    [AdminCategoryController::class, 'destroy'])->name('categories.destroy');
+        Route::post('/categories/{category}/products',             [AdminCategoryController::class, 'storeProduct'])->name('products.store');
+        Route::delete('/categories/{category}/products/{product}', [AdminCategoryController::class, 'destroyProduct'])->name('products.destroy');
+        Route::get('/categories/{category}/products/{product}/edit', [AdminCategoryController::class, 'editProduct'])->name('products.edit');
+        Route::put('/categories/{category}/products/{product}',      [AdminCategoryController::class, 'updateProduct'])->name('products.update');
+
         Route::get('/users',                 [AdminUserController::class, 'index'])->name('users.index');
         Route::get('/users/{user}',          [AdminUserController::class, 'show'])->name('users.show');
         Route::get('/users/{user}/edit',     [AdminUserController::class, 'edit'])->name('users.edit');
