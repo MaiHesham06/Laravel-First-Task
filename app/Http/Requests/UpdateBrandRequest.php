@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Brand;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreProductRequest extends FormRequest
+class UpdateBrandRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +24,11 @@ class StoreProductRequest extends FormRequest
      */
     public function rules(): array
     {
+        $brandId = $this->route('brand')?->id;
+
         return [
-            'name'        => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'price'       => ['required', 'numeric', 'min:0'],
-            'brand_id'    => ['nullable', 'exists:brands,id'],
-            'images'      => ['nullable', 'array'],
-            'images.*'    => ['image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'name' => ['sometimes', 'string', 'max:255'],
+            'code' => ['sometimes', 'string', 'max:50', Rule::unique('brands', 'code')->ignore($brandId)],
         ];
     }
 }

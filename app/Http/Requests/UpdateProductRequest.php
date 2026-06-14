@@ -26,6 +26,9 @@ class UpdateProductRequest extends FormRequest
             'name'        => ['sometimes', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'price'       => ['sometimes', 'numeric', 'min:0'],
+            'brand_id'    => ['nullable', 'exists:brands,id'],
+            'images'      => ['nullable', 'array'],
+            'images.*'    => ['image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ];
     }
 }

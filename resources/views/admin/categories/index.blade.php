@@ -4,7 +4,6 @@
         <div class="flex justify-between items-center mb-6">
             <div>
                 <h1 class="text-2xl font-bold text-gray-800">Categories</h1>
-                <p class="text-sm text-gray-400 mt-1">Manage your product categories</p>
             </div>
             <span class="text-sm text-gray-500 bg-white px-4 py-2 rounded-lg shadow">
                 {{ $categories->total() }} {{ Str::plural('category', $categories->total()) }}
@@ -15,7 +14,7 @@
             <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
                 {{ session('success') }}
             </div>
-        @endif
+        @endif 
 
         @if ($errors->any())
             <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
@@ -24,7 +23,7 @@
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
-            </div>
+            </div>  
         @endif
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -70,12 +69,24 @@
                                     <span class="inline-block mt-1 text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">
                                         {{ $category->products_count }} {{ Str::plural('product', $category->products_count) }}
                                     </span>
+                                    <div class="flex gap-3 mt-1">
+                                        <p class="text-xs text-gray-400">
+                                            Added by <span class="text-gray-600 font-medium">{{ $category->creator?->name ?? 'Unknown' }}</span>
+                                        </p>
+                                        <p class="text-xs text-gray-400">
+                                            Updated by <span class="text-gray-600 font-medium">{{ $category->updater?->name ?? 'Unknown' }}</span>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="flex items-center gap-3">
                                 <a href="{{ route('admin.categories.show', $category) }}"
                                     class="text-sm text-gray-500 hover:text-blue-600 px-3 py-1.5 rounded-lg border hover:border-blue-300 transition">
                                     View
+                                </a>
+                                <a href="{{ route('admin.categories.edit', $category) }}"
+                                    class="text-sm text-gray-500 hover:text-blue-600 px-3 py-1.5 rounded-lg border hover:border-blue-300 transition">
+                                    Edit
                                 </a>
                                 <form action="{{ route('admin.categories.destroy', $category) }}" method="POST">
                                     @csrf

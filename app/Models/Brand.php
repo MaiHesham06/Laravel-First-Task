@@ -3,13 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-
-class Category extends Model
+class Brand extends Model
 {
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'code'];
 
     public function products(): HasMany
     {
@@ -25,5 +24,4 @@ class Category extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
-    
 }

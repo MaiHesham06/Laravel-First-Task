@@ -1,13 +1,24 @@
 <x-layouts.app>
     <div class="max-w-5xl mx-auto">
-        <h1 class="text-2xl font-bold mb-6">Products</h1>
+
+        <div class="mb-6">
+            <a href="{{ route('web.brands.index') }}" class="text-blue-600 hover:underline text-sm">
+                ← Back to Brands
+            </a>
+            <div class="flex items-center gap-3 mt-2">
+                <h1 class="text-2xl font-bold">{{ $brand->name }}</h1>
+                <span class="bg-gray-200 text-gray-600 text-xs font-mono px-2 py-0.5 rounded">
+                        {{ $brand->code }}
+                </span>
+            </div>
+        </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            @forelse($products as $product)
+            @forelse($brand->products as $product)
                 <a href="{{ route('web.products.show', $product) }}"
                     class="bg-white rounded-xl shadow overflow-hidden hover:shadow-md transition block">
 
-                    {{-- Image --}}
+                    {{-- Product main image --}}
                     @if($product->images->count())
                         <div class="w-full h-48 bg-gray-50 flex items-center justify-center p-2">
                             <img src="{{ Storage::url($product->images->first()->path) }}"
@@ -20,23 +31,13 @@
                     @endif
 
                     <div class="p-5">
-                        <span class="text-xs text-gray-400 uppercase tracking-wide">
-                            {{ $product->category->name }}
-                        </span>
-
-                        <h2 class="font-semibold text-lg mt-1">{{ $product->name }}</h2>
-
+                        <h2 class="font-semibold">{{ $product->name }}</h2>
                         @if($product->description)
                             <p class="text-gray-500 text-sm mt-1 line-clamp-2">{{ $product->description }}</p>
                         @endif
-
                         <p class="text-blue-600 font-bold mt-2">${{ $product->price }}</p>
-
-                        {{-- Brand --}}
-                        @if($product->brand)
-                            <span class="inline-block bg-gray-100 text-gray-600 text-xs font-mono px-2 py-0.5 rounded mt-1">
-                                {{ $product->brand->code }} — {{ $product->brand->name }}
-                            </span>
+                        @if($product->category)
+                            <p class="text-xs text-gray-400 mt-1">{{ $product->category->name }}</p>
                         @endif
 
                         {{-- Rating summary --}}
@@ -70,10 +71,8 @@
                     </div>
                 </a>
             @empty
-                <p class="text-gray-400 col-span-3">No products available.</p>
+                <p class="text-gray-400 col-span-3">No products for this brand.</p>
             @endforelse
         </div>
-
-        <div class="mt-4">{{ $products->links() }}</div>
     </div>
 </x-layouts.app>

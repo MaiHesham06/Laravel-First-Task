@@ -16,11 +16,13 @@
                 <a href="{{ route('admin.users.index') }}" class="text-gray-600 hover:text-blue-600 text-sm">Users</a>
                 <a href="{{ route('admin.categories.index') }}" class="text-gray-600 hover:text-blue-600 text-sm">Categories</a>
                 <a href="{{ route('admin.products.index') }}" class="text-gray-600 hover:text-blue-600 text-sm">Products</a>
+                <a href="{{ route('admin.brands.index') }}" class="text-gray-600 hover:text-blue-600 text-sm">Brands</a>
             @else
                 <a href="{{ route('web.users.profile') }}" class="font-bold text-2xl">MyApp</a>
+                <a href="{{ route('web.users.profile') }}" class="text-gray-600 hover:text-blue-600 text-sm">Profile</a>
                 <a href="{{ route('web.categories.index') }}" class="text-gray-600 hover:text-blue-600 text-sm">Categories</a>
                 <a href="{{ route('web.products.index') }}" class="text-gray-600 hover:text-blue-600 text-sm">Products</a>
-                <a href="{{ route('web.users.profile') }}" class="text-gray-600 hover:text-blue-600 text-sm">Profile</a>
+                <a href="{{ route('web.brands.index') }}" class="text-gray-600 hover:text-blue-600 text-sm">Brands</a>
             @endif
         </div>
         <div class="flex items-center gap-5">

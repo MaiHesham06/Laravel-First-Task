@@ -4,16 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-
-class Category extends Model
+class ProductVariant extends Model
 {
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['product_id', 'type', 'value', 'price_adjustment'];
 
-    public function products(): HasMany
+    protected function casts(): array
     {
-        return $this->hasMany(Product::class);
+        return [
+            'price_adjustment' => 'decimal:2',
+        ];
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
     }
 
     public function creator(): BelongsTo
@@ -25,5 +30,4 @@ class Category extends Model
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
-    
 }

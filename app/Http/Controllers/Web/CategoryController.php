@@ -7,8 +7,6 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-
-
 class CategoryController extends Controller
 {
     public function index(): View
@@ -20,7 +18,7 @@ class CategoryController extends Controller
 
     public function show(Category $category): View
     {
-        $category->load('products');
+        $category->load(['products.images', 'products.variants', 'products.brand', 'products.ratings']);
 
         return view('categories.show', compact('category'));
     }
